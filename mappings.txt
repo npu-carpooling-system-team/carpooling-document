@@ -1,0 +1,230 @@
+GET _search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+PUT /course-publish
+{
+  "settings": {
+    "number_of_shards": 1,
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "companyId": {
+        "type": "keyword"
+      },
+      "companyName": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "name": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "users": {
+        "index": false,
+        "type": "text"
+      },
+      "tags": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "mt": {
+        "type": "keyword"
+      },
+      "mtName": {
+        "type": "keyword"
+      },
+      "st": {
+        "type": "keyword"
+      },
+      "stName": {
+        "type": "keyword"
+      },
+      "grade": {
+        "type": "keyword"
+      },
+      "teachmode": {
+        "type": "keyword"
+      },
+      "pic": {
+        "index": false,
+        "type": "text"
+      },
+      "description": {
+        "analyzer": "ik_max_word",
+        "search_analyzer": "ik_smart",
+        "type": "text"
+      },
+      "createDate": {
+        "format": "yyyy-MM-dd HH:mm:ss",
+        "type": "date"
+      },
+      "status": {
+        "type": "keyword"
+      },
+      "remark": {
+        "index": false,
+        "type": "text"
+      },
+      "charge": {
+        "type": "keyword"
+      },
+      "price": {
+        "type": "scaled_float",
+        "scaling_factor": 100
+      },
+      "originalPrice": {
+        "type": "scaled_float",
+        "scaling_factor": 100
+      },
+      "validDays": {
+        "type": "integer"
+      }
+    }
+  }
+}
+
+DELETE /course-publish
+
+GET /course-publish
+
+POST /course-publish/_doc/103
+{
+  "charge" : "201001",
+  "companyId" : 100000,
+  "companyName" : "北京黑马程序",
+  "createDate" : "2022-09-25 09:36:11",
+  "description" : "HTML/CSS",
+  "grade" : "204001",
+  "id" : 102,
+  "mt" : "1-1",
+  "mtName" : "前端开发",
+  "name" : "Html参考大全",
+  "originalPrice" : 200.0,
+  "pic" : "/mediafiles/2022/09/20/e726b71ba99c70e8c9d2850c2a7019d7.jpg",
+  "price" : 100.0,
+  "remark" : "没有备注",
+  "st" : "1-1-1",
+  "stName" : "HTML/CSS",
+  "status" : "203002",
+  "tags" : "没有标签",
+  "teachmode" : "200002",
+  "validDays" : 222
+}
+
+GET /course-publish/_doc/131
+
+DELETE /course-publish/_doc/103
+
+PUT /carpooling
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "text_anlyzer": {
+          "tokenizer": "ik_max_word"
+        },
+        "completion_analyzer": {
+          "tokenizer": "keyword",
+          "filter": "py"
+        }
+      },
+      "filter": {
+        "py": {
+          "type": "pinyin",
+          "keep_full_pinyin": false,
+          "keep_joined_full_pinyin": true,
+          "keep_original": true,
+          "limit_first_letter_length": 16,
+          "remove_duplicated_term": true,
+          "none_chinese_pinyin_tokenize": false
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "id": {
+        "type": "keyword"
+      },
+      "driverId": {
+        "type": "keyword"
+      },
+      "departureTime": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm"
+      },
+      "arriveTime": {
+        "type": "date",
+        "format": "yyyy-MM-dd HH:mm"
+      },
+      "departurePoint": {
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart",
+        "copy_to": "all"
+      },
+      "arrivePoint": {
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart",
+        "copy_to": "all"
+      },
+      "passingPoint": {
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart",
+        "copy_to": "all"
+      },
+      "description": {
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart",
+        "copy_to": "all"
+      },
+      "totalPassengerNo": {
+        "type": "integer"
+      },
+      "leftPassengerNo": {
+        "type": "integer"
+      },
+      "price": {
+        "type": "integer"
+      },
+      "all": {
+        "type": "text",
+        "analyzer": "text_anlyzer",
+        "search_analyzer": "ik_smart"
+      },
+      "suggestion": {
+        "type": "completion",
+        "analyzer": "completion_analyzer"
+      }
+    }
+  }
+}
+
+DELETE /carpooling
+
+GET /carpooling
+
+GET /carpooling/_search
+{
+  "query": {
+    "match": {
+      "all": "校区"
+    }
+  }
+}
+
+GET /carpooling/_doc/13
